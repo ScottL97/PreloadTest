@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>相册</title>
+        <style>
+            html, body {
+                height: 100%;
+            }
+            .box {
+                text-align: center;
+            }
+            .btn {
+                display: inline-block;
+                height: 30px;
+                line-height: 30px;
+                text-decoration: none;
+                background-color: #ccc;
+                color: #333;
+                padding: 0 10px;
+                margin-right: 10px;
+            }
+            .btn:hover {
+                background-color: #cee;
+            }
+            #img {
+                width: 70%;
+            }
+            .loading {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                top: 0px;
+                left: 0px;
+                background-color: aquamarine;
+                text-align: center;
+                font-size: 30px;
+            }
+            .progress {
+                margin-top: 300px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="box">
+            <img src="https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJlbKwhOIdTi1ABetAcyd9CcAALGiQPS1ggAF60Z739.jpg"
+             alt="pic" id="img" />
+            <p>
+                <a href="javascript:;" class="btn" data-control="prev">上一页</a>
+                <a href="javascript:;" class="btn" data-control="next">下一页</a>
+            </p>
+        </div>
+        <div class="loading">
+            <p class="progress">0%</p>
+        </div>
+        <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="js/preload.js"></script>    
+        <script>
+            var imgs = [
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJlbKwhOIdTi1ABetAcyd9CcAALGiQPS1ggAF60Z739.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJlbKwhOIKH5hABlDI-YaLb0AALGigAAAAAAGUM7043.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJ1bKwhOIeQ2NAByOtjrTuewAALGigAZQzsAHI7O782.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJlbKwhOICGB2ABorIbYvaxQAALGigA10gkAGis5627.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJlbKwhOIG3N8ACqhy6w84LUAALGigBP_UIAKqHj430.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJlbKwhOIHqQXABYQX6q_-WIAALGigB6nyUAFhB3917.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJ1bKwhOIat15ABdhYY1kZF4AALGigCQr5wAF2F5814.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJlbKwhSINEVuABvFEtiJXyoAALGigCoERUAG8Uq697.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJ1bKwhSIQ5j5ABnkRUdVVb8AALGigDD1j8AGeRd676.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJlbKwhSIShPcABv-KHKlw7AAALGigDdupwAG_5A370.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJ1bKwhSIAZBBAByvuQBaD20AALGigD5uNwAHK_R377.jpg',
+                'https://desk-fd.zol-img.com.cn/t_s1920x1200c5/g5/M00/01/0E/ChMkJlbKwhSIZ7EWABnTNK1vKZsAALGigEWaK0AGdNM439.jpg'
+            ];
+            var index = 0,
+                len = imgs.length;
+
+            //自定义jQuery插件
+            $.preload(imgs, {
+                each: function(count) {
+                    $('.progress').html(Math.round((count + 1) / len * 100) + '%');
+                },
+                all: function() {
+                    $('.loading').hide();
+                }
+            });
+
+            $('.btn').on('click', function(){
+                if ('prev' === $(this).data('control')) { //上一张
+                    index = Math.max(0, --index);
+                } else { //下一张
+                    index = Math.min(len - 1, ++index);
+                }
+                $('#img').attr('src', imgs[index]);
+            });
+        </script>
+    </body>
+</html>
